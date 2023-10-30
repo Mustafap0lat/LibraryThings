@@ -1,5 +1,4 @@
 <?php
-// src/Entity/Book.php
 
 namespace App\Entity;
 
@@ -33,13 +32,6 @@ class Book
      * @Groups({"public"})
      */
     private $isbn;
-
-    // /**
-    //  * @ORM\ManyToOne(targetEntity="Category", inversedBy="books")
-    //  * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
-    //  * @Groups({"public"})
-    //  */
-    // private $category;
 
     /**
      * @ORM\ManyToMany(targetEntity="User", mappedBy="favoriteBooks")

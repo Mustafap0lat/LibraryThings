@@ -8,7 +8,7 @@ const BookSearch = () => {
   const [error, setError] = useState("");
   const [favoriteBooks, setFavoriteBooks] = useState([]);
   const [note, setNote] = useState("");
-  const [usernames, setUsernames] = useState([]); // corrected from setUsername to setUsernames
+  const [usernames, setUsernames] = useState([]);
   const [selectedUsername, setSelectedUsername] = useState(null);
   const [currentBookId, setCurrentBookId] = useState(null);
   const [rating, setRating] = useState("");
@@ -172,7 +172,7 @@ const BookSearch = () => {
       );
 
       if (response.status === 201) {
-        setNote(""); // Clear the note input field
+        setNote("");
       } else {
         alert("Failed to save note");
       }
@@ -211,7 +211,7 @@ const BookSearch = () => {
       );
 
       if (response.status === 201) {
-        setRating(""); // Clear the rating input field
+        setRating("");
       } else {
         alert("Failed to save rating");
       }
@@ -249,7 +249,7 @@ const BookSearch = () => {
       );
 
       if (response.status === 201) {
-        setCategory(""); // Clear the category input field
+        setCategory("");
       } else {
         alert("Failed to save category");
       }

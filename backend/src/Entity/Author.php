@@ -1,5 +1,4 @@
 <?php
-//C:\Code\work-sample-master\backend\src\Entity\Author.php
 namespace App\Entity;
 
 
@@ -91,7 +90,6 @@ class Author
     public function removeBook(Book $book): self
     {
         if ($this->books->removeElement($book)) {
-            // set the owning side to null (unless already changed)
             if ($book->getAuthor() === $this) {
                 $book->setAuthor(null);
             }

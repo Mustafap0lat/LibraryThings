@@ -1,5 +1,4 @@
 <?php
-// src/Entity/Note.php
 
 namespace App\Entity;
 

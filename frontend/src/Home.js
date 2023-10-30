@@ -5,24 +5,19 @@ import './styles/index.css';
 
 const Home = ({ onUserCreated }) => {
   const [newUsername, setNewUsername] = useState("");
-  const [creationError, setCreationError] = useState(""); // To display the error returned from server
+  const [creationError, setCreationError] = useState("");
 
   const createUser = async () => {
     try {
-      // Assuming that the username is passed directly in the URL, and not as a request body or query parameter.
       const response = await axios.post(
         `http://localhost:8000/api/user/create/${newUsername}`
       );
+      console.log(response.data);
 
-      // Handle the response according to your needs
-      console.log(response.data); // New user data
-
-      // Reset input field and error state
       setNewUsername("");
       setCreationError("");
 
-      // Here we call the onUserCreated function passed in as a prop to notify the parent component.
-      onUserCreated(); // <--- This line is crucial
+      onUserCreated();
 
       alert("User created successfully");
     } catch (error) {

@@ -1,5 +1,4 @@
 <?php
-// src/Repository/CategoryRepository.php
 namespace App\Repository;
 
 use App\Entity\Category;
@@ -43,7 +42,6 @@ public function findCategoryByUserAndBook(int $userId, int $bookId): array
     ->setParameter('user', $userId)
     ->setParameter('book', $bookId);
 
-    // returns an array of Note objects
     return $query->getResult();
 }
 
@@ -71,7 +69,6 @@ public function findCategoryByUserAndBook(int $userId, int $bookId): array
         $entityManager = $this->getEntityManager();
 
         $entityManager->persist($cat);
-        // Persist the Note too if it's not already managed.
          $entityManager->flush();
     }
 }

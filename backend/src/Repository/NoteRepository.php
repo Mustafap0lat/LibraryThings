@@ -1,5 +1,4 @@
 <?php
-// src/Repository/NoteRepository.php
 namespace App\Repository;
 
 use App\Entity\Note;
@@ -29,8 +28,6 @@ class NoteRepository extends ServiceEntityRepository
     return true;
 }
 
-// src/Repository/NoteRepository.php
-
 public function findNotesByUserAndBook(int $userId, int $bookId): array
 {
     $entityManager = $this->getEntityManager();
@@ -43,7 +40,6 @@ public function findNotesByUserAndBook(int $userId, int $bookId): array
     ->setParameter('user', $userId)
     ->setParameter('book', $bookId);
 
-    // returns an array of Note objects
     return $query->getResult();
 }
 
@@ -71,7 +67,6 @@ public function findNotesByUserAndBook(int $userId, int $bookId): array
         $entityManager = $this->getEntityManager();
 
         $entityManager->persist($note);
-        // Persist the Note too if it's not already managed.
          $entityManager->flush();
     }
 }

@@ -30,25 +30,19 @@ class FavoriteBookRepository extends ServiceEntityRepository
      */
     public function findAllFavoriteBooksByUsername(string $username): array
     {
-        $qb = $this->createQueryBuilder('fb');  // fb is alias for FavoriteBook
+        $qb = $this->createQueryBuilder('fb');
         
         $query = $qb
-            ->select('fb', 'u', 'b')  // Selecting FavoriteBook, User, and Book entities
-            ->join('fb.user', 'u')  // Joining User on FavoriteBook
-            ->join('fb.book', 'b')  // Joining Book on FavoriteBook
-            ->where($qb->expr()->eq('u.username', ':username'))  // Where username equals the passed username
+            ->select('fb', 'u', 'b')
+            ->join('fb.user', 'u')
+            ->join('fb.book', 'b')
+            ->where($qb->expr()->eq('u.username', ':username'))
             ->setParameter('username', $username)
             ->getQuery();
 
 
-        $favoriteBooks = $query->getResult(); // Execute the query and get results
+        $favoriteBooks = $query->getResult();
 
-        // $noteRepository = $this->getEntityManager()->getRepository(Note::class);
-        // foreach ($favoriteBooks as $favoriteBook) {
-        //     $notes = $noteRepository->findBy(['favoriteBook' => $favoriteBook]);
-        //     $favoriteBook->setNotes($notes);
-        // }    
-    
         return $favoriteBooks;
     }
     
@@ -63,48 +57,16 @@ class FavoriteBookRepository extends ServiceEntityRepository
      */
     public function saveFavoriteBookWithNote(User $user, Book $book)
     {
-        // $favoriteBook = new FavoriteBook();
-        // $favoriteBook->addUser($user);
-        // $favoriteBook->addBook($book);
 
-        // $test = addBook($book);
-        
-        
-        // // Set the Note for the FavoriteBook.
-        // $favoriteBook->addNote($note);
+    $entityManager = $this->getEntityManager();
 
-        // // Persist the FavoriteBook entity along with the Note.
-        // $entityManager = $this->getEntityManager();
-        // $entityManager->persist($favoriteBook);
-        // $entityManager->persist($note); // Persist the Note too if it's not already managed.
-        // $entityManager->flush();
-
-        $entityManager = $this->getEntityManager();
-
-    // Create a new FavoriteBook
-    // $favoriteBook = new FavoriteBook();
-    // $cat = new Category();
-    // $cat->setCategoryName("Action");
-
-    // Add the User to the FavoriteBook
-    //$favoriteBook->setUser($user);
-
-    // Set the title of the FavoriteBook based on the Book's title
     $favoriteBook->setBook($book);
-
-    // $favoriteBook->setRating(3);
-
 
     $note = new Note();
     $note->setNoteText($noteText);
     $note->setUser($user);
     $note->setBook($book);
-    // // Add the Note to the FavoriteBook
-    // $favoriteBook->addNote($note);
-
-    // Persist the FavoriteBook entity along with the Note.
     $entityManager->persist($favoriteBook);
-   // Persist the Note too if it's not already managed.
     $entityManager->flush();
     }
 

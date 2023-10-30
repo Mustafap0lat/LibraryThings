@@ -1,5 +1,4 @@
 <?php
-// src/Repository/RatingRepository.php
 namespace App\Repository;
 
 use App\Entity\Rating;
@@ -30,7 +29,6 @@ class RatingRepository extends ServiceEntityRepository
     return true;
 }
 
-// src/Repository/RatingRepository.php
 
 public function findRatingsByUserAndBook(int $userId, int $bookId): array
 {
@@ -44,7 +42,6 @@ public function findRatingsByUserAndBook(int $userId, int $bookId): array
     ->setParameter('user', $userId)
     ->setParameter('book', $bookId);
 
-    // returns an array of Note objects
     return $query->getResult();
 }
 
@@ -72,7 +69,6 @@ public function findRatingsByUserAndBook(int $userId, int $bookId): array
         $entityManager = $this->getEntityManager();
 
         $entityManager->persist($rate);
-        // Persist the Note too if it's not already managed.
          $entityManager->flush();
     }
 }

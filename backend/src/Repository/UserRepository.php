@@ -1,5 +1,4 @@
 <?php
-//C:\Code\work-sample-master\backend\src\Repository\UserRepository.php
 namespace App\Repository;
 
 use App\Entity\User;
@@ -57,7 +56,6 @@ class UserRepository extends ServiceEntityRepository
 
 
         $entityManager->persist($user);
-        // Persist the Note too if it's not already managed.
          $entityManager->flush();
     }
     

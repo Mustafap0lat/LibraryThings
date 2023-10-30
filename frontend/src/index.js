@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 import "./styles/index.css";
-import BookSearch from './BookSearch'; // make sure the path is correct
+import BookSearch from './BookSearch';
 import Home from "./Home";
 
 const App = () => {

@@ -1,5 +1,4 @@
 <?php
-// C:\Code\work-sample-master\backend\src\Controller\UserController.php
 
 namespace App\Controller;
 
@@ -23,14 +22,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\SerializerInterface;
 
+//UNCOMMENT WHEN RUNNING
+// header("Access-Control-Allow-Origin: http://localhost:3000"); 
+// header("Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS"); 
+// header("Access-Control-Allow-Headers: Content-Type, Authorization"); 
 
-// header("Access-Control-Allow-Origin: http://localhost:3000"); // Allow only certain origins, replace '*' with your frontend's actual origin
-// header("Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS"); // Allowable methods
-// header("Access-Control-Allow-Headers: Content-Type, Authorization"); // Headers allowed during CORS requests
-
-// // If this is an OPTIONS request (a preliminary request sent by the browser before the actual request), return only the headers and not the content
 // if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-//     exit; // It's a preflight request, no further action needed
+//     exit; 
 // }
 
 class UserController extends AbstractController
@@ -65,7 +63,6 @@ class UserController extends AbstractController
 
         $this->userRepository->addUser($user, true);
 
-        // assuming the book object can be serialized to JSON
         return $this->json($user);
     }
 
@@ -77,13 +74,11 @@ public function getAllUsers(): JsonResponse
 {
     $users = $this->userRepository->findAll();
 
-    // You might want to transform your users here, depending on what data you want to expose
     $usersArray = [];
     foreach ($users as $user) {
         $usersArray[] = [
             'id' => $user->getId(),
             'username' => $user->getUsername(),
-            // other fields you might want to include
         ];
     }
 
@@ -95,27 +90,23 @@ public function getAllUsers(): JsonResponse
      */
     public function getFavoriteBooksByUsernames(string $username, UserRepository $userRepository, SerializerInterface $serializer)
     {
-        // Find the user by username
         $user = $userRepository->findOneBy(['username' => $username]);
 
         
         if (!$user) {
             $this->logger->info("no user found");
-            // User not found, return an empty response or an error message
             return new JsonResponse(['message' => 'User not found'], JsonResponse::HTTP_NOT_FOUND);
         }
 
         $this->logger->debug("BLA BLA");
-        // Get the favorite books for the user
         $favoriteBooks = $user->getFavoriteBooks();
 
         $serializedData = [];
 
-        // Iterate through favorite books to include notes
         foreach ($favoriteBooks as $book) {
             $bookData = [
-                'book' => $book, // Serialize the book itself
-                'notes' => $this->getNotesForUserAndBook($user, $book, $serializer), // Fetch and serialize associated note
+                'book' => $book,
+                'notes' => $this->getNotesForUserAndBook($user, $book, $serializer),
                 'rating' => $this->getRatingsForUserAndBook($user, $book, $serializer),
                 'category' => $this->getCategoryForUserAndBook($user, $book, $serializer)
             ];
@@ -131,7 +122,6 @@ public function getAllUsers(): JsonResponse
     private function getNotesForUserAndBook(User $user, Book $book, SerializerInterface $serializer): array
     {
             $this->logger->info("NOTE NOTE NOTE");
-            // Fetch notes related to the user and book
             $notes = $this->getDoctrine()->getRepository(Note::class)->findBy([
                 'user' => $user,
                 'book' => $book,
@@ -139,12 +129,9 @@ public function getAllUsers(): JsonResponse
 
             $this->logger->info("NOTE NOTE NOTE 22222");
 
-            // Serialize the notes
-             // Initialize an array to store serialized notes
             $serializedNotes = [];
 
             foreach ($notes as $note) {
-                // Serialize each note individually
                 $serializedNotes[] = $note;
             }
 
@@ -153,18 +140,13 @@ public function getAllUsers(): JsonResponse
 
     private function getRatingsForUserAndBook(User $user, Book $book, SerializerInterface $serializer): array
     {
-            // Fetch notes related to the user and book
             $ratings = $this->getDoctrine()->getRepository(Rating::class)->findBy([
                 'user' => $user,
                 'book' => $book,
             ]);
-
-            // Serialize the notes
-             // Initialize an array to store serialized notes
             $serializedRatings = [];
 
             foreach ($ratings as $rating) {
-                // Serialize each note individually
                 $serializedRatings[] = $rating;
             }
 
@@ -172,18 +154,14 @@ public function getAllUsers(): JsonResponse
     }
     private function getCategoryForUserAndBook(User $user, Book $book, SerializerInterface $serializer): array
     {
-            // Fetch notes related to the user and book
             $categories = $this->getDoctrine()->getRepository(Category::class)->findBy([
                 'user' => $user,
                 'book' => $book,
             ]);
 
-            // Serialize the notes
-             // Initialize an array to store serialized notes
             $serializedCategories = [];
 
             foreach ($categories as $category) {
-                // Serialize each note individually
                 $serializedCategories[] = $category;
             }
 
@@ -225,12 +203,11 @@ public function getAllUsers(): JsonResponse
 
             $this->logger->info("Book title ===================");
             $this->logger->info($book->getTitle());
-            // $this->logger->info($book->getTitle());
 
         }
 
         $this->logger->info("far 45");
-        $this->logger->info($book->getTitle()); //here we check. There is a title
+        $this->logger->info($book->getTitle());
 
       
 
@@ -238,7 +215,6 @@ public function getAllUsers(): JsonResponse
         $this->logger->info("far 46");
         $userRepository->saveAsFavoriteBook($user, $book);
 
-        // Return a success response if needed.
         return $this->json(['message' => 'Favorite book saved successfully'], JsonResponse::HTTP_CREATED);
 
     }
@@ -266,7 +242,6 @@ public function getAllUsers(): JsonResponse
         
         $noteRepository->saveNote($user, $book, $note);
 
-        // Return a success response if needed.
         return $this->json(['message' => 'Note saved successfully'], JsonResponse::HTTP_CREATED);
 
     }
@@ -294,7 +269,6 @@ public function getAllUsers(): JsonResponse
         
         $ratingRepository->saveRating($user, $book, $rating);
 
-        // Return a success response if needed.
         return $this->json(['message' => 'Rating saved successfully'], JsonResponse::HTTP_CREATED);
 
     }
@@ -322,7 +296,6 @@ public function getAllUsers(): JsonResponse
         
         $categoryRepository->saveCategory($user, $book, $category);
 
-        // Return a success response if needed.
         return $this->json(['message' => 'Category saved successfully'], JsonResponse::HTTP_CREATED);
 
     }
@@ -336,12 +309,11 @@ public function getAllUsers(): JsonResponse
 
         $favoriteBooks = $this->repository->findAllFavoriteBooksByUsername($username);
 
-        // Set up a circular reference handler
         $defaultContext = [
             'circular_reference_handler' => function ($object) {
-                return $object->getId();  // Here you can decide what data you want to expose for the circular reference, typically the ID.
+                return $object->getId();
             },
-            'enable_max_depth' => true, // Make sure to keep the MaxDepth checks enabled
+            'enable_max_depth' => true,
         ];
 
         return $this->json($favoriteBooks, 200, [], $defaultContext);
@@ -375,7 +347,7 @@ public function addNoteToBook(Request $request): JsonResponse
     $data = json_decode($jsonData, true);
 
     $userId = $data['userId'] ?? null;
-    $bookId = $data['bookId'] ?? null; // Adjusted to use bookId
+    $bookId = $data['bookId'] ?? null;
     $noteText = $data['noteText'] ?? null;
 
     if (null === $userId || null === $bookId || null === $noteText) {
@@ -384,25 +356,22 @@ public function addNoteToBook(Request $request): JsonResponse
 
     $entityManager = $this->getDoctrine()->getManager();
 
-    // Find the user
     $user = $entityManager->getRepository(User::class)->find($userId);
 
     if (!$user) {
         return $this->json(['error' => 'User not found'], JsonResponse::HTTP_NOT_FOUND);
     }
 
-    // Find the book by its ID
-    $book = $entityManager->getRepository(Book::class)->find($bookId); // Adjusted to use bookId
+    $book = $entityManager->getRepository(Book::class)->find($bookId);
 
     if (!$book) {
         return $this->json(['error' => 'Book not found'], JsonResponse::HTTP_NOT_FOUND);
     }
 
-    // Create the new Note
     $note = new Note();
     $note->setNoteText($noteText);
-    $note->setBook($book); // Associate the note with the book
-    $note->setUser($user); // Associate the note with the user
+    $note->setBook($book);
+    $note->setUser($user);
 
     $entityManager->persist($note);
     $entityManager->flush();
@@ -433,13 +402,11 @@ public function getUserBookNotes(int $userId, int $bookId, NoteRepository $noteR
 {
     $notes = $noteRepository->findNotesByUserAndBook($userId, $bookId);
 
-    // serialize notes to array of data you want to send
     $notesArray = [];
     foreach ($notes as $note) {
         $notesArray[] = [
             'id' => $note->getId(),
             'text' => $note->getNoteText(),
-            // other fields you might want to include
         ];
     }
 
@@ -468,7 +435,6 @@ public function getUserBookNotes(int $userId, int $bookId, NoteRepository $noteR
                 'note_text' => $note->getText(),
                 'book_id' => $book->getId(),
                 'book_title' => $book->getTitle(),
-                // other fields you might want to include
             ];
         }
 
@@ -485,7 +451,7 @@ public function getUserBookNotes(int $userId, int $bookId, NoteRepository $noteR
         $data = json_decode($jsonData, true);
 
         $userId = $data['userId'] ?? null;
-        $bookId = $data['bookId'] ?? null; // Adjusted to use bookId
+        $bookId = $data['bookId'] ?? null;
         $categoryName = $data['categoryName'] ?? null;
 
         if (null === $userId || null === $bookId || null === $categoryName) {
@@ -494,15 +460,13 @@ public function getUserBookNotes(int $userId, int $bookId, NoteRepository $noteR
 
         $entityManager = $this->getDoctrine()->getManager();
 
-        // Find the user
         $user = $entityManager->getRepository(User::class)->find($userId);
 
         if (!$user) {
             return $this->json(['error' => 'User not found'], JsonResponse::HTTP_NOT_FOUND);
         }
 
-        // Find the book by its ID
-        $book = $entityManager->getRepository(Book::class)->find($bookId); // Adjusted to use bookId
+        $book = $entityManager->getRepository(Book::class)->find($bookId);
 
         if (!$book) {
             return $this->json(['error' => 'Book not found'], JsonResponse::HTTP_NOT_FOUND);
@@ -510,8 +474,8 @@ public function getUserBookNotes(int $userId, int $bookId, NoteRepository $noteR
 
         $category = new Category();
         $category->setName($categoryName);
-        $category->setBook($book); // Associate the note with the book
-        $category->setUser($user); // Associate the note with the user
+        $category->setBook($book);
+        $category->setUser($user);
 
         $entityManager->persist($category);
         $entityManager->flush();
@@ -541,7 +505,6 @@ public function getUserBookNotes(int $userId, int $bookId, NoteRepository $noteR
                 'category_name' => $category->getName(),
                 'book_id' => $book->getId(),
                 'book_title' => $book->getTitle(),
-                // other fields you might want to include
             ];
         }
 
@@ -574,38 +537,6 @@ public function getUserBookNotes(int $userId, int $bookId, NoteRepository $noteR
 
         return $this->json(['message' => 'Book created successfully'], Response::HTTP_CREATED);
     }
-
-    // /**
-    //  * @Route("/user/ratefavorite", name="app_rate_favorite", methods={"POST"})
-    //  */
-    // public function rateFavoriteBook(
-    //     Request $request,
-    //     FavoriteBookRepository $favoriteBookRepository
-    // ): JsonResponse {
-    //     $data = json_decode($request->getContent(), true);
-    //     $favoriteBookId = $data['favoriteBookId'] ?? null;
-    //     $rating = $data['rating'] ?? null;
-
-    //     if ($favoriteBookId === null || $rating === null) {
-    //         return $this->json(['message' => 'Missing parameters'], JsonResponse::HTTP_BAD_REQUEST);
-    //     }
-
-    //     $favoriteBook = $favoriteBookRepository->find($favoriteBookId);
-
-    //     if (!$favoriteBook) {
-    //         return $this->json(['message' => 'Favorite book not found'], JsonResponse::HTTP_NOT_FOUND);
-    //     }
-
-    //     if ($rating < 0 || $rating > 5) {
-    //         return $this->json(['message' => 'Invalid rating value'], JsonResponse::HTTP_BAD_REQUEST);
-    //     }
-
-    //     $favoriteBook->setRating($rating);
-    //     $entityManager = $this->getDoctrine()->getManager();
-    //     $entityManager->flush();
-
-    //     return $this->json(['message' => 'Rating updated successfully'], JsonResponse::HTTP_OK);
-    // }
 }
 
 

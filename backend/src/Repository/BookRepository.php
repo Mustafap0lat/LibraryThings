@@ -1,5 +1,4 @@
 <?php
-//C:\Code\work-sample-master\backend\src\Repository\BookRepository.php
 namespace App\Repository;
 
 use App\Entity\Book;

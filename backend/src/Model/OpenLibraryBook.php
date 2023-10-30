@@ -1,5 +1,5 @@
 <?php
-// C:\Code\work-sample-master\backend\src\Model\OpenLibraryBook.php
+
 namespace App\Model;
 
 class OpenLibraryBook implements \JsonSerializable
@@ -7,7 +7,7 @@ class OpenLibraryBook implements \JsonSerializable
     private array $identifiers;
     private string $title;
     private array $authors;
-    private string $publish_date;  // Changed from array to string
+    private string $publish_date; 
     private array $isbn_13;  
     
 
@@ -15,9 +15,8 @@ class OpenLibraryBook implements \JsonSerializable
         $this->identifiers = $data['identifiers'] ?? [];
         $this->title = $data['title'] ?? '';
         $this->authors = $data['authors'] ?? [];
-        $this->publish_date = $data['publish_date'] ?? ''; // Default to an empty string if not provided
-        $this->isbn_13 = $data['isbn_13'] ?? []; // Default to an empty string if not provided
-        // ... set other properties
+        $this->publish_date = $data['publish_date'] ?? ''; 
+        $this->isbn_13 = $data['isbn_13'] ?? []; 
     }
 
     public function getIdentifiers(): array {
@@ -40,7 +39,6 @@ class OpenLibraryBook implements \JsonSerializable
         return $this->isbn_13;
     }
 
-    // ... other getters
 
     public function jsonSerialize()
     {
@@ -48,9 +46,8 @@ class OpenLibraryBook implements \JsonSerializable
             'identifiers' => $this->getIdentifiers(),
             'title' => $this->getTitle(),
             'authors' => $this->getAuthors(),
-            'publish_date' => $this->getPublishDate(), // Corrected method name here as well
-            'isbn_13' => $this->getIsbn_13(), // Corrected method name here as well
-            // ... other properties you want to include
+            'publish_date' => $this->getPublishDate(),
+            'isbn_13' => $this->getIsbn_13(),
         ];
     }
 }

@@ -1,5 +1,4 @@
 <?php
-// src/Entity/Category.php
 
 namespace App\Entity;
 

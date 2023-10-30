@@ -105,7 +105,7 @@ p {
 }
 
 button {
-  background-color: #3d9f80; /* Green */
+  background-color: #3d9f80;
   color: white;
   padding: 10px 20px;
   text-align: center;
@@ -121,15 +121,15 @@ button {
 }
 .select-container {
   max-width: 307px;
-  margin: 0 auto 20px auto; /* Center the container and add margin at the bottom */
+  margin: 0 auto 20px auto;
 }
 
 select {
-  width: 100%; /* Make the select element take up the full width of its container */
+  width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  box-sizing: border-box;
 }
 
 
@@ -144,7 +144,7 @@ button:hover {
 }
 
 .delete-button {
-  background-color: #ca754a; /* Red */
+  background-color: #ca754a;
 }
 
 .delete-button:hover {
@@ -154,7 +154,7 @@ button:hover {
 
 .book-info-container {
   max-width: 500px;
-  margin: 0 auto 20px auto; /* Center the container and add margin at the bottom */
+  margin: 0 auto 20px auto;
 }
 
 .book-info {
@@ -163,14 +163,14 @@ button:hover {
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin-top: 20px;
-  font-family: 'Roboto', sans-serif; /* Add this line to apply the font */
+  font-family: 'Roboto', sans-serif;
 }
 
 .book-info h3 {
   font-size: 1.2rem;
   margin-bottom: 10px;
   color: #333;
-  font-weight: 500; /* Medium weight, you can adjust as needed */
+  font-weight: 500;
 }
 
 .book-info p {
@@ -204,7 +204,7 @@ ul {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 20vh; /* Full viewport height */
+  height: 20vh;
   font-family: 'Roboto', sans-serif;
 }
 
@@ -232,10 +232,10 @@ ul {
 }
 
 .hardcoded-text {
-  font-weight: 600;  /* Making it bold */
-  font-size: 1em;  /* Making it slightly larger */
-  color: #272525bb;  /* A subtle color */
-  margin-bottom: 5px;  /* Bottom margin */
+  font-weight: 600;
+  font-size: 1em;
+  color: #272525bb;
+  margin-bottom: 5px;
 }
 
 .favorite-books-title {
@@ -247,10 +247,8 @@ ul {
   margin-bottom: 20px;
   padding-bottom: 10px;
  
-  text-align: center;  /* Center text horizontally */
+  text-align: center;
 }
-
-/* ///////////////////////////////////////////////////////////// */
 
 .home-container {
   display: flex;
@@ -281,7 +279,7 @@ ul {
 .input-group button {
   width: 100%;
   padding: 10px;
-  background-color: #3d9f80; /* Green */
+  background-color: #3d9f80;
   color: white;
   border: none;
   border-radius: 4px;
@@ -294,7 +292,7 @@ ul {
 }
 
 .error-message {
-  color: #f44336; /* Red */
+  color: #f44336;
   margin-top: 10px;
   text-align: center;
 }
@@ -308,10 +306,10 @@ ul {
 }
 
 .no-favorites-message {
-  text-align: center;  /* Center text horizontally */
-  margin: 0 auto;  /* Center block-level element horizontally */
-  font-size: 20px;  /* Set the font size */
-  font-weight: bold;  /* Make text bold */
-  color: #333;  /* Set text color */
-  padding: 20px;  /* Add some padding */
+  text-align: center;
+  margin: 0 auto;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  padding: 20px;
 }

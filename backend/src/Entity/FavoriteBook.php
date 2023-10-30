@@ -1,5 +1,4 @@
 <?php
-// src/Entity/FavoriteBook.php
 
 namespace App\Entity;
 

@@ -1,5 +1,4 @@
 <?php
-// C:\Code\work-sample-master\backend\src\Controller\BooksController.php
 
 namespace App\Controller;
 
@@ -33,7 +32,6 @@ class BooksController extends AbstractController
             ], 404);
         }
 
-        // assuming the book object can be serialized to JSON
         return $this->json($book);
     }
 

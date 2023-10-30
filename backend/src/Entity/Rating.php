@@ -1,5 +1,4 @@
 <?php
-// src/Entity/Rating.php
 
 namespace App\Entity;
 
