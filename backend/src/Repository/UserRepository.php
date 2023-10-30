@@ -60,4 +60,5 @@ class UserRepository extends ServiceEntityRepository
         // Persist the Note too if it's not already managed.
          $entityManager->flush();
     }
+    
 }

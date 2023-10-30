@@ -11,15 +11,14 @@ use App\Entity\Note;
 use App\Entity\Category;
 use App\Repository\CategoryRepository;
 use App\Repository\FavoriteBookRepository;
-use Psr\Log\LoggerInterface;
+
 
 class FavoriteBookRepository extends ServiceEntityRepository
 {
-    private LoggerInterface $logger;
+   
     
-    public function __construct(ManagerRegistry $registry, LoggerInterface $logger)
+    public function __construct(ManagerRegistry $registry)
     {
-        $this->logger = $logger;
         parent::__construct($registry, FavoriteBook::class);
     }
 

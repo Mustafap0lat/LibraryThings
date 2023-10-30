@@ -21,15 +21,14 @@ const App = () => {
   return (
     <React.StrictMode>
       <div>
-        <h1>Welcome King</h1>
         <Routes>
           <Route
             path="/"
             element={
-              <>
-                <Home onUserCreated={handleUserCreated} />
-                <button onClick={handleAlreadyRegistered}>Already Registered</button>
-              </>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <Home onUserCreated={handleUserCreated} />
+              <button className="already-registered-button" onClick={handleAlreadyRegistered}>Already Registered</button>
+            </div>
             }
           />
           <Route path="/book-search" element={<BookSearch />} />

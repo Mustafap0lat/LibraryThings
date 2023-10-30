@@ -44,11 +44,17 @@ class User
      */
     private $rating;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Category", mappedBy="user", cascade={"persist"})
+     */
+    private $categories;
+
     public function __construct()
     {
         $this->favoriteBooks = new ArrayCollection();
         $this->notes = new ArrayCollection();
         $this->rating = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -99,5 +105,10 @@ class User
     public function getRating(): Collection
     {
         return $this->rating;
+    }
+
+    public function getCategories(): Collection
+    {
+        return $this->categories;
     }
 }

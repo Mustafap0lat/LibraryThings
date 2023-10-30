@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import './styles/index.css';
+
 
 const Home = ({ onUserCreated }) => {
   const [newUsername, setNewUsername] = useState("");
@@ -34,15 +36,25 @@ const Home = ({ onUserCreated }) => {
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        value={newUsername}
-        onChange={(e) => setNewUsername(e.target.value)}
-        placeholder="New username"
-      />
-      <button onClick={createUser}>Create User</button>
-      {creationError && <p>{creationError}</p>}
+     <div className="home-container" style={{ 
+      backgroundImage: `url('/digital-hexagons.jpg')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      minHeight: '30vh',
+      width: '15vw',
+      position: 'relative'
+  }}>
+    <div className="input-group">
+        <input
+          type="text"
+          value={newUsername}
+          onChange={(e) => setNewUsername(e.target.value)}
+          placeholder="New username"
+        />
+        <button className="create-button" onClick={createUser}>Create User</button>
+      </div>
+      {creationError && <p className="error-message">{creationError}</p>}
     </div>
   );
 };

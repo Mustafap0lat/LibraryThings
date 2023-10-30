@@ -17,11 +17,12 @@ class CategoryRepository extends ServiceEntityRepository
     
     public function findOrCreateByName(string $categoryName): Category
     {
-        $category = $this->findOneBy(['name' => $categoryName]);
+        $category = $this->findOneBy(['categoryName' => $categoryName]);
+
         
         if (!$category) {
             $category = new Category();
-            $category->setName($categoryName);
+            $category->setCategory($category);
             $this->_em->persist($category);
             $this->_em->flush();
         }
@@ -58,5 +59,19 @@ public function findCategoryByUserAndBook(int $userId, int $bookId): array
         )->setParameter('user', $user);
 
         return $query->getResult();
+    }
+
+    public function saveCategory($user, $book, $category)
+    {
+        $cat = new Category();
+        $cat->setBook($book);
+        $cat->setUser($user);
+        $cat->setCategory($category);
+
+        $entityManager = $this->getEntityManager();
+
+        $entityManager->persist($cat);
+        // Persist the Note too if it's not already managed.
+         $entityManager->flush();
     }
 }

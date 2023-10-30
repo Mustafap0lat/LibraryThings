@@ -1,9 +1,317 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.favorite-books-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
 }
 
+h3 {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+.favorite-book-item {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+.book-title {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.categories-section,
+.notes-section,
+.ratings-section {
+  margin-bottom: 20px;
+}
+
+.button-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.input-text {
+  flex-grow: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 1em;
+  margin-bottom: 15px;
+}
+.book-info {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  text-align: left;
+}
+
+
+.container, .favorite-books-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.input-field {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  max-width: 20px;
+}
+
+.input-field input {
+  flex-grow: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  align-self: center;
+  height: 20px;
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background:rgba(220, 212, 212, 0.298);
+}
+
+button {
+  background-color: #3d9f80; /* Green */
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  font-family: 'Roboto', sans-serif;
+}
+.select-container {
+  max-width: 307px;
+  margin: 0 auto 20px auto; /* Center the container and add margin at the bottom */
+}
+
+select {
+  width: 100%; /* Make the select element take up the full width of its container */
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+
+button.add-favorites:hover {
+  background-color: white;
+  color: black;
+}
+
+button:hover {
+  background-color: rgba(51, 195, 54, 0.314);
+  color: black;
+}
+
+.delete-button {
+  background-color: #ca754a; /* Red */
+}
+
+.delete-button:hover {
+  background-color: rgb(186, 155, 155);
+  color: black;
+}
+
+.book-info-container {
+  max-width: 500px;
+  margin: 0 auto 20px auto; /* Center the container and add margin at the bottom */
+}
+
+.book-info {
+  background-color: #f4f4f4;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  font-family: 'Roboto', sans-serif; /* Add this line to apply the font */
+}
+
+.book-info h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #333;
+  font-weight: 500; /* Medium weight, you can adjust as needed */
+}
+
+.book-info p {
+  font-size: 1rem;
+  margin-bottom: 15px;
+  color: #555;
+}
+
+h3, .book-title {
+  font-size: 1.6em;
+  margin-bottom: 20px;
+  font-weight: 500;
+  color: #333;
+  
+}
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+.favorite-book-item,
+.book-info {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20vh; /* Full viewport height */
+  font-family: 'Roboto', sans-serif;
+}
+
+@keyframes rolling {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-ring {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+}
+
+.loading-ring:after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #4c8caf;
+  border-color: #4c8caf transparent #4c8caf transparent;
+  animation: rolling 1.2s linear infinite;
+}
+
+.hardcoded-text {
+  font-weight: 600;  /* Making it bold */
+  font-size: 1em;  /* Making it slightly larger */
+  color: #272525bb;  /* A subtle color */
+  margin-bottom: 5px;  /* Bottom margin */
+}
+
+.favorite-books-title {
+  font-size: 1.4em;
+  font-weight: 700;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+ 
+  text-align: center;  /* Center text horizontally */
+}
+
+/* ///////////////////////////////////////////////////////////// */
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  margin-top: 300px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 1px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.input-group button {
+  width: 100%;
+  padding: 10px;
+  background-color: #3d9f80; /* Green */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.input-group button:hover {
+  background-color: #45a049;
+}
+
+.error-message {
+  color: #f44336; /* Red */
+  margin-top: 10px;
+  text-align: center;
+}
+
+.create-button {
+  margin-top: 20px
+}
+
+.already-registered-button {
+  width: 215px;
+}
+
+.no-favorites-message {
+  text-align: center;  /* Center text horizontally */
+  margin: 0 auto;  /* Center block-level element horizontally */
+  font-size: 20px;  /* Set the font size */
+  font-weight: bold;  /* Make text bold */
+  color: #333;  /* Set text color */
+  padding: 20px;  /* Add some padding */
+}

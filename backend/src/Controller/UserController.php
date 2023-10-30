@@ -23,15 +23,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\SerializerInterface;
 
-//Add the following lines at the beginning of your script or controller
-header("Access-Control-Allow-Origin: http://localhost:3000"); // Allow only certain origins, replace '*' with your frontend's actual origin
-header("Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS"); // Allowable methods
-header("Access-Control-Allow-Headers: Content-Type, Authorization"); // Headers allowed during CORS requests
 
-// If this is an OPTIONS request (a preliminary request sent by the browser before the actual request), return only the headers and not the content
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    exit; // It's a preflight request, no further action needed
-}
+// header("Access-Control-Allow-Origin: http://localhost:3000"); // Allow only certain origins, replace '*' with your frontend's actual origin
+// header("Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS"); // Allowable methods
+// header("Access-Control-Allow-Headers: Content-Type, Authorization"); // Headers allowed during CORS requests
+
+// // If this is an OPTIONS request (a preliminary request sent by the browser before the actual request), return only the headers and not the content
+// if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+//     exit; // It's a preflight request, no further action needed
+// }
 
 class UserController extends AbstractController
 {
@@ -116,7 +116,8 @@ public function getAllUsers(): JsonResponse
             $bookData = [
                 'book' => $book, // Serialize the book itself
                 'notes' => $this->getNotesForUserAndBook($user, $book, $serializer), // Fetch and serialize associated note
-                'rating' => $this->getRatingsForUserAndBook($user, $book, $serializer)
+                'rating' => $this->getRatingsForUserAndBook($user, $book, $serializer),
+                'category' => $this->getCategoryForUserAndBook($user, $book, $serializer)
             ];
     
             $serializedData[] = $bookData;
@@ -168,6 +169,25 @@ public function getAllUsers(): JsonResponse
             }
 
             return $serializedRatings;
+    }
+    private function getCategoryForUserAndBook(User $user, Book $book, SerializerInterface $serializer): array
+    {
+            // Fetch notes related to the user and book
+            $categories = $this->getDoctrine()->getRepository(Category::class)->findBy([
+                'user' => $user,
+                'book' => $book,
+            ]);
+
+            // Serialize the notes
+             // Initialize an array to store serialized notes
+            $serializedCategories = [];
+
+            foreach ($categories as $category) {
+                // Serialize each note individually
+                $serializedCategories[] = $category;
+            }
+
+            return $serializedCategories;
     }
 
 
@@ -278,6 +298,34 @@ public function getAllUsers(): JsonResponse
         return $this->json(['message' => 'Rating saved successfully'], JsonResponse::HTTP_CREATED);
 
     }
+    
+    /**
+     * @Route("/user/savecategory", name="app_add_category", methods={"POST"})
+     */
+    public function saveCategoryForBook(Request $request): JsonResponse
+    {
+        $jsonData = $request->getContent();
+        $data = json_decode($jsonData, true);
+        
+        $userId = $data['userId'] ?? null;
+        $bookId = $data['bookId'] ?? null;
+        $category = $data['categoryName'] ?? null;
+
+        $this->logger->info($category);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->getRepository(User::class)->findById($userId);
+        $book = $entityManager->getRepository(Book::class)->getById($bookId);   
+
+        $categoryRepository = $this->getDoctrine()->getRepository(Category::class);
+
+        
+        $categoryRepository->saveCategory($user, $book, $category);
+
+        // Return a success response if needed.
+        return $this->json(['message' => 'Category saved successfully'], JsonResponse::HTTP_CREATED);
+
+    }
 
     /**
      * @Route("/user/favorite-books/{username}", name="app_user_favorite_books", methods={"GET"})
@@ -305,17 +353,19 @@ public function getAllUsers(): JsonResponse
 public function deleteFavoriteBook(int $id): JsonResponse
 {
     $entityManager = $this->getDoctrine()->getManager();
-    $favoriteBook = $entityManager->getRepository(FavoriteBook::class)->find($id);
+    $book = $entityManager->getRepository(Book::class)->find($id);
 
-    if (!$favoriteBook) {
+    if (!$book) {
         return $this->json(['error' => 'Favorite book not found'], JsonResponse::HTTP_NOT_FOUND);
     }
 
-    $this->repository->deleteFavoriteBook($favoriteBook);
+    $entityManager->remove($book);
+    $entityManager->flush();
 
     return $this->json(['message' => 'Favorite book deleted successfully'], JsonResponse::HTTP_OK);
 }
 
+    
 /**
  * @Route("/user/addnote", name="app_add_note", methods={"POST"})
  */
@@ -458,7 +508,6 @@ public function getUserBookNotes(int $userId, int $bookId, NoteRepository $noteR
             return $this->json(['error' => 'Book not found'], JsonResponse::HTTP_NOT_FOUND);
         }
 
-        // Create the new Note
         $category = new Category();
         $category->setName($categoryName);
         $category->setBook($book); // Associate the note with the book
@@ -526,37 +575,37 @@ public function getUserBookNotes(int $userId, int $bookId, NoteRepository $noteR
         return $this->json(['message' => 'Book created successfully'], Response::HTTP_CREATED);
     }
 
-    /**
-     * @Route("/user/ratefavorite", name="app_rate_favorite", methods={"POST"})
-     */
-    public function rateFavoriteBook(
-        Request $request,
-        FavoriteBookRepository $favoriteBookRepository
-    ): JsonResponse {
-        $data = json_decode($request->getContent(), true);
-        $favoriteBookId = $data['favoriteBookId'] ?? null;
-        $rating = $data['rating'] ?? null;
+    // /**
+    //  * @Route("/user/ratefavorite", name="app_rate_favorite", methods={"POST"})
+    //  */
+    // public function rateFavoriteBook(
+    //     Request $request,
+    //     FavoriteBookRepository $favoriteBookRepository
+    // ): JsonResponse {
+    //     $data = json_decode($request->getContent(), true);
+    //     $favoriteBookId = $data['favoriteBookId'] ?? null;
+    //     $rating = $data['rating'] ?? null;
 
-        if ($favoriteBookId === null || $rating === null) {
-            return $this->json(['message' => 'Missing parameters'], JsonResponse::HTTP_BAD_REQUEST);
-        }
+    //     if ($favoriteBookId === null || $rating === null) {
+    //         return $this->json(['message' => 'Missing parameters'], JsonResponse::HTTP_BAD_REQUEST);
+    //     }
 
-        $favoriteBook = $favoriteBookRepository->find($favoriteBookId);
+    //     $favoriteBook = $favoriteBookRepository->find($favoriteBookId);
 
-        if (!$favoriteBook) {
-            return $this->json(['message' => 'Favorite book not found'], JsonResponse::HTTP_NOT_FOUND);
-        }
+    //     if (!$favoriteBook) {
+    //         return $this->json(['message' => 'Favorite book not found'], JsonResponse::HTTP_NOT_FOUND);
+    //     }
 
-        if ($rating < 0 || $rating > 5) {
-            return $this->json(['message' => 'Invalid rating value'], JsonResponse::HTTP_BAD_REQUEST);
-        }
+    //     if ($rating < 0 || $rating > 5) {
+    //         return $this->json(['message' => 'Invalid rating value'], JsonResponse::HTTP_BAD_REQUEST);
+    //     }
 
-        $favoriteBook->setRating($rating);
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->flush();
+    //     $favoriteBook->setRating($rating);
+    //     $entityManager = $this->getDoctrine()->getManager();
+    //     $entityManager->flush();
 
-        return $this->json(['message' => 'Rating updated successfully'], JsonResponse::HTTP_OK);
-    }
+    //     return $this->json(['message' => 'Rating updated successfully'], JsonResponse::HTTP_OK);
+    // }
 }
 
 

@@ -10,63 +10,12 @@ use App\Entity\Book;
 use App\Repository\CategoryRepository;
 use App\Repository\FavoriteBookRepository;
 use Symfony\Component\Serializer\Annotation\Groups;
-// /**
-//  * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
-//  */
-// class Category
-// {
-//     /**
-//      * @ORM\Id
-//      * @ORM\GeneratedValue(strategy="AUTO")
-//      * @ORM\Column(type="integer")
-//      */
-//     private $id;
 
-//     /**
-//      * @ORM\Column(type="string")
-//      */
-//     private $categoryName;
-
-//     /**
-//      * @ORM\OneToMany(targetEntity="Book", mappedBy="category")
-//      */
-//     private $books;
-
-//     public function __construct()
-//     {
-//         $this->books = new ArrayCollection();
-//     }
-
-//     public function getId(): ?int
-//     {
-//         return $this->id;
-//     }
-
-//     public function getCategoryName(): ?string
-//     {
-//         return $this->categoryName;
-//     }
-
-//     public function setCategoryName(string $categoryName): self
-//     {
-//         $this->categoryName = $categoryName;
-
-//         return $this;
-//     }
-
-//     /**
-//      * @return Collection|Book[]
-//      */
-//     public function getBooks(): Collection
-//     {
-//         return $this->books;
-//     }
-// }
-
-// NEW ============= 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
+ * @ORM\Entity(repositoryClass=CategoryRepository::class)
  */
+
+
 class Category
 {
     /**
@@ -80,37 +29,59 @@ class Category
      * @ORM\Column(type="string", length=255)
      * @Groups({"public"})
      */
-    private $categoryName;
+    private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity="Book", mappedBy="category")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="notes")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $books;
+    private $user;
 
-    public function __construct()
-    {
-        $this->books = new ArrayCollection();
-    }
+     /**
+      * @ORM\ManyToOne(targetEntity="Book", inversedBy="notes")
+      * @ORM\JoinColumn(name="book_id", referencedColumnName="id")
+      */
+
+    private $book;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getCategoryName(): ?string
+    public function getCategory(): ?string
     {
-        return $this->categoryName;
+        return $this->category;
     }
 
-    public function setCategoryName(string $categoryName): self
+    public function setCategory(string $category): self
     {
-        $this->categoryName = $categoryName;
+        $this->category = $category;
 
         return $this;
     }
 
-    public function getBooks(): Collection
+    public function getUser(): ?User
     {
-        return $this->books;
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getBook(): ?Book
+    {
+        return $this->book;
+    }
+
+    public function setBook(?Book $book): self
+    {
+        $this->book = $book;
+
+        return $this;
     }
 }
